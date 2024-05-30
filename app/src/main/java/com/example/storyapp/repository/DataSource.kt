@@ -1,0 +1,18 @@
+package com.example.storyapp.repository
+
+import com.example.storyapp.model.ResponseUploadStory
+import com.example.storyapp.api.ApiService
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Response
+import javax.inject.Inject
+
+class DataSource @Inject constructor(private val apiService: ApiService) {
+    suspend fun login(email: String, password: String) = apiService.login(email, password)
+    suspend fun register(name: String, email: String, password: String) = apiService.register(name, email, password)
+    suspend fun uploadStory(auth: String, description: String, file: MultipartBody.Part) : Response<ResponseUploadStory> {
+        val desc = description.toRequestBody("text/plain".toMediaType())
+        return apiService.uploadStory(auth, file, desc)
+    }
+}

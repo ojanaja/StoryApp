@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.LoginScreenActivity"
+    >
+
+  <TextView
+      android:id="@+id/textView"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="16dp"
+      android:layout_marginEnd="16dp"
+      android:alpha="0"
+      android:text="@string/welcome"
+      android:textColor="@color/black"
+      android:layout_marginTop="24dp"
+      android:textSize="18sp"
+      android:fontFamily="@font/opensans_regular"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/img_login" />
+
+  <ImageView
+      android:id="@+id/img_login"
+      android:layout_width="0dp"
+      android:layout_height="200dp"
+      android:layout_marginTop="24dp"
+      android:contentDescription="@string/login_image"
+      android:src="@drawable/img_login"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <com.example.storyapp.customView.EditTextEmail
+      android:id="@+id/ed_login_email"
+      android:layout_width="0dp"
+      android:layout_height="50dp"
+      android:layout_marginStart="16dp"
+      android:layout_marginEnd="16dp"
+      android:alpha="0"
+      android:background="@drawable/bg_edittext"
+      android:inputType="textEmailAddress"
+      app:customFontEmail="@font/opensans_regular"
+      android:paddingStart="8dp"
+      android:paddingEnd="8dp"
+      android:textSize="14sp"
+      android:layout_marginTop="34dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+  <com.example.storyapp.customView.EditTextPassword
+      android:id="@+id/ed_login_password"
+      android:layout_width="0dp"
+      android:layout_height="50dp"
+      android:layout_marginTop="14dp"
+      android:alpha="0"
+      android:background="@drawable/bg_edittext"
+      app:customFontPassword="@font/opensans_regular"
+      android:paddingStart="8dp"
+      android:paddingEnd="8dp"
+      android:textSize="14sp"
+      app:layout_constraintEnd_toEndOf="@+id/ed_login_email"
+      app:layout_constraintStart_toStartOf="@+id/ed_login_email"
+      app:layout_constraintTop_toBottomOf="@+id/ed_login_email" />
+
+  <com.google.android.material.button.MaterialButton
+      android:id="@+id/btn_sign_in"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="24dp"
+      android:alpha="0"
+      android:background="@drawable/bg_edittext"
+      android:text="@string/sign_in"
+      android:textAllCaps="false"
+      android:fontFamily="@font/opensans_regular"
+      app:layout_constraintEnd_toEndOf="@+id/ed_login_password"
+      app:layout_constraintStart_toStartOf="@+id/ed_login_password"
+      app:layout_constraintTop_toBottomOf="@+id/ed_login_password" />
+
+  <TextView
+      android:id="@+id/textView3"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="16dp"
+      android:text="@string/dont_have_account"
+      android:fontFamily="@font/opensans_semibold"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="@+id/btn_sign_in"
+      app:layout_constraintHorizontal_bias="0.36"
+      app:layout_constraintStart_toStartOf="@+id/btn_sign_in"
+      app:layout_constraintTop_toBottomOf="@+id/btn_sign_in"
+      app:layout_constraintVertical_bias="1.0" />
+
+  <TextView
+      android:id="@+id/tv_register"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:text="@string/register"
+      android:fontFamily="@font/opensans_bold"
+      android:textColor="@color/darker_green"
+      app:layout_constraintBottom_toBottomOf="@+id/textView3"
+      app:layout_constraintEnd_toEndOf="@+id/btn_sign_in"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toEndOf="@+id/textView3"
+      app:layout_constraintTop_toTopOf="@+id/textView3" />
+
+  <ProgressBar
+      android:id="@+id/progress_bar"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:visibility="gone"
+      app:layout_constraintBottom_toBottomOf="@+id/btn_sign_in"
+      app:layout_constraintEnd_toEndOf="@+id/btn_sign_in"
+      app:layout_constraintStart_toStartOf="@+id/btn_sign_in"
+      app:layout_constraintTop_toTopOf="@+id/btn_sign_in" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

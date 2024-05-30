@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="EditTextEmail">
+        <attr name="customFontEmail" format="string" />
+    </declare-styleable>
+    <declare-styleable name="EditTextPassword">
+        <attr name="customFontPassword" format="string" />
+    </declare-styleable>
+</resources>
