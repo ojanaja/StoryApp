@@ -1,6 +1,7 @@
 package com.example.storyapp.ui
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.storyapp.R
@@ -31,6 +32,13 @@ class DetailStoryScreen : AppCompatActivity() {
             binding.apply {
                 tvName.text = story.name
                 tvDescription.text = story.description
+                if (story.lat != null && story.lon != null) {
+                    tvLocation.visibility = View.VISIBLE
+                    val locationText = "Location: ${story.lat}, ${story.lon}"
+                    tvLocation.text = locationText
+                } else {
+                    tvLocation.visibility = View.GONE
+                }
                 Glide.with(this@DetailStoryScreen)
                     .load(story.photoUrl)
                     .into(imgPhotos)

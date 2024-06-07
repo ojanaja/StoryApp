@@ -4,6 +4,7 @@ plugins {
     id ("kotlin-parcelize")
     id ("kotlin-kapt")
     id ("com.google.dagger.hilt.android")
+    alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
 android {
@@ -42,6 +43,10 @@ android {
         viewBinding = true
         buildConfig = true
     }
+
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 kapt {
@@ -62,6 +67,8 @@ dependencies {
     implementation(libs.androidx.paging.runtime.ktx)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.espresso.idling.resource)
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -73,16 +80,16 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     // Hilt dependencies
-    implementation ("com.google.dagger:hilt-android:2.51.1")
-    kapt ("com.google.dagger:hilt-compiler:2.51.1")
+    implementation (libs.hilt.android.v2511)
+    kapt (libs.hilt.compiler)
 
     // For instrumentation tests
-    androidTestImplementation  ("com.google.dagger:hilt-android-testing:2.51.1")
-    kaptAndroidTest ("com.google.dagger:hilt-compiler:2.51.1")
+    androidTestImplementation  (libs.hilt.android.testing)
+    kaptAndroidTest (libs.hilt.compiler)
 
     // For local unit tests
-    testImplementation ("com.google.dagger:hilt-android-testing:2.51.1")
-    kaptTest ("com.google.dagger:hilt-compiler:2.51.1")
+    testImplementation (libs.hilt.android.testing)
+    kaptTest (libs.hilt.compiler)
 
     //network
     implementation (libs.retrofit)
@@ -90,18 +97,25 @@ dependencies {
     implementation (libs.okhttp)
     implementation (libs.logging.interceptor)
 
-    //share preference
-    implementation (libs.krate)
-
     //swipe refresh
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
+    implementation(libs.androidx.swiperefreshlayout)
 
     //glide
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation (libs.glide)
 
     //room
-    implementation("androidx.room:room-runtime:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
-    implementation ("androidx.room:room-paging:2.6.1")
-    implementation ("androidx.paging:paging-runtime-ktx:3.3.0")
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+    implementation (libs.androidx.room.paging)
+    implementation (libs.androidx.paging.runtime.ktx)
+
+    implementation (libs.play.services.maps.v1820)
+
+    androidTestImplementation(libs.androidx.core.testing) //InstantTaskExecutorRule
+    androidTestImplementation(libs.kotlinx.coroutines.test) //TestDispatcher
+
+    testImplementation(libs.androidx.core.testing) // InstantTaskExecutorRule
+    testImplementation(libs.kotlinx.coroutines.test) //TestDispatcher
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
 }

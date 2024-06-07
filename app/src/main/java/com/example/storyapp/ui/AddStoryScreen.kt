@@ -7,10 +7,12 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -27,6 +29,8 @@ import com.example.storyapp.model.ResponseUploadStory
 import com.example.storyapp.utils.NetworkRequest
 import com.example.storyapp.utils.PreferencedManager
 import com.example.storyapp.viewModel.AddStoryViewModel
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -49,9 +53,11 @@ class AddStoryScreen : AppCompatActivity() {
     private var selectedFile: File? = null
     private var uploadJob: Job = Job()
     private val viewModel: AddStoryViewModel by viewModels()
+    private var location: Location? = null
 
     private lateinit var preferenceManager: PreferencedManager
     private lateinit var currentPhotoPath: String
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -78,8 +84,49 @@ class AddStoryScreen : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         preferenceManager = PreferencedManager(this)
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
         checkPermissions()
         setupClickListeners()
+
+        binding.checkboxLocation.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                getLastLocation()
+            } else {
+                location = null
+            }
+        }
+    }
+
+    private fun getLastLocation() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { loc ->
+                if (loc != null) {
+                    location = loc
+                } else {
+                    Toast.makeText(this, resources.getString(R.string.activate_location), Toast.LENGTH_SHORT).show()
+                    binding.checkboxLocation.isChecked = false
+                }
+            }
+        } else {
+            requestPermissionLauncher.launch(
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        }
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            getLastLocation()
+        } else {
+            Toast.makeText(this, R.string.not_allowed, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setupClickListeners() {
@@ -120,12 +167,22 @@ class AddStoryScreen : AppCompatActivity() {
             requestImageFile
         )
 
+        var lat: String? = null
+        var lon: String? = null
+
+        if (location != null) {
+            lat = location?.latitude.toString()
+            lon = location?.longitude.toString()
+        }
+
         lifecycle.coroutineScope.launchWhenResumed {
             if (uploadJob.isActive) uploadJob.cancel()
             uploadJob = launch {
                 viewModel.uploadStory(
                     preferenceManager.token,
                     description,
+                    lat,
+                    lon,
                     imageMultipart
                 ).collect { result ->
                     handleUploadResult(result)

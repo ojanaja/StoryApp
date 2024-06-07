@@ -10,5 +10,5 @@ data class ResponseHome(
     val message: String,
 
     @field:SerializedName("listStory")
-    val listStory: List<StoryResponse>,
+    val listStory: List<StoryResponse>
 )

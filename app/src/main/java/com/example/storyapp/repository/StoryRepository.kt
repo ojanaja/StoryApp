@@ -21,7 +21,7 @@ class StoryRepository @Inject constructor(
 
     fun getStories(auth: String) : Flow<PagingData<Story>> =
         Pager(
-            config = PagingConfig(pageSize = 10),
+            config = PagingConfig(pageSize = 20),
             remoteMediator = StoryRemoteMediator(
                 database,
                 apiService,

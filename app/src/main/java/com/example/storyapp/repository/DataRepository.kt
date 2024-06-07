@@ -4,6 +4,7 @@ import com.example.storyapp.model.ResponseLogin
 import com.example.storyapp.model.ResponseRegister
 import com.example.storyapp.model.ResponseUploadStory
 import com.example.storyapp.api.ApiConfig
+import com.example.storyapp.model.ResponseHome
 import com.example.storyapp.utils.NetworkRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -14,15 +15,24 @@ import javax.inject.Inject
 class DataRepository @Inject constructor(
     private val dataSource: DataSource
 ) : ApiConfig() {
+    suspend fun getStoriesLocation(auth: String): Flow<NetworkRequest<ResponseHome>> =
+        flow {
+            emit(safeApiCall {
+                dataSource.getStoriesLocation(generateAuthorization(auth))
+            })
+        }.flowOn(Dispatchers.IO)
+
     suspend fun uploadStory(
         auth: String,
         description: String,
+        lat: String?,
+        lon: String?,
         file: MultipartBody.Part
     ): Flow<NetworkRequest<ResponseUploadStory>> =
         flow {
             emit(safeApiCall {
                 val generateToken = generateAuthorization(auth)
-                dataSource.uploadStory(generateToken, description, file)
+                dataSource.uploadStory(generateToken, description, lat, lon, file)
             })
         }.flowOn(Dispatchers.IO)
 

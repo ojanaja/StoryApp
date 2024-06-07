@@ -46,4 +46,7 @@
     <string name="not_allowed">Not allowed permission</string>
     <string name="error_no_image">No Image Selected</string>
     <string name="error_no_description">Description must be fill</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="activate_location">Please allow your location</string>
+    <string name="share_location">Share your location</string>
 </resources>

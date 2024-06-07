@@ -9,8 +9,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AddStoryViewModel @Inject constructor(private val dataRepository: DataRepository) : ViewModel() {
 
-    suspend fun uploadStory(auth: String, description: String, file: MultipartBody.Part) =
-        dataRepository.uploadStory(auth, description, file)
+    suspend fun uploadStory(auth: String, description: String, lat: String?, lon: String?, file: MultipartBody.Part) =
+        dataRepository.uploadStory(auth, description, lat, lon, file)
 
 
 }
